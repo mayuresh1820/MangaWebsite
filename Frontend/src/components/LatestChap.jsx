@@ -1,11 +1,30 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import list from '../../public/list.json'
+// import list from '../../public/list.json'
 import Cards from './Cards';
+import axios from 'axios';
+
 function LatestChap() {
-    const filterData = list.filter((data)=> data.category === "Free");
+
+  const [manga,setManga]=useState([])
+  useEffect(()=>{
+    const getManga = async()=>{
+      try {
+       const res = await  axios.get('http://localhost:4001/manga')
+    
+       const data=res.data.filter((data)=> data.category === "Free")
+       console.log(data)
+       setManga(data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    getManga();
+  } , [])
+    // const filterData = list.filter((data)=> data.category === "Free");
     // console.log(filterData);
 
     var settings = {
@@ -54,7 +73,7 @@ function LatestChap() {
 
     <div>
     <Slider {...settings}>
-        {filterData.map((item) => (
+        {manga.map((item) => (
           <Cards item ={item}  key = {item.id}/>
         ))}
       </Slider>

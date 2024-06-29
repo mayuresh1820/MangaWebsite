@@ -10,7 +10,6 @@ function Contact1() {
     <Navbar/>
     <div className='min-h-screen'>
     <Contact/>
-    <Popular/>
     </div>
     <Footer/>
     </>

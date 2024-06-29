@@ -1,9 +1,24 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Cards from './Cards'
-import list from '../../public/list.json'
+// import list from '../../public/list.json'
 import {Link} from 'react-router-dom'
-
+import axios from 'axios'
 function Popular() {
+
+  const [manga,setManga]=useState([])
+  useEffect(()=>{
+    const getManga = async()=>{
+      try {
+       const res = await  axios.get('http://localhost:4001/manga')
+       console.log(res.data)
+       setManga(res.data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    getManga();
+  } , [])
   return (
     <>
     <div className='max-w-screen-2xl container mx-auto md:px-20 px-4'>
@@ -18,7 +33,7 @@ function Popular() {
       </div>
       <div className='mt-12 grid grid-cols-1 md:grid-cols-3'>
         {
-          list.map((item) =>(
+          manga.map((item) =>(
             <Cards key={item.id} item ={item}/>
           ))
         }
